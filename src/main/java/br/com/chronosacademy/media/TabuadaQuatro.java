@@ -15,7 +15,7 @@ public class TabuadaQuatro {
 */
         tabuada(valor);
     }
-    
+
     public static void tabuada (int valor) {
         for(int i = 10; i > 0; i--){
             System.out.println(valor+ " X "+i+" = "+valor * i);

@@ -1,5 +1,8 @@
 package br.com.chronosacademy.automacaoWeb;
 
+import br.com.chronosacademy.core.Driver;
+import br.com.chronosacademy.pages.CursoPage;
+import br.com.chronosacademy.pages.PrincipalPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -14,47 +17,50 @@ import static org.junit.Assert.assertEquals;
 public class TesteWeb {
 
     WebDriver driver;
+    Driver driverWeb;
+    PrincipalPage principalPage;
+    CursoPage cursoPage;
+
+
 
     @Before
     public void inicializaTeste(){
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        driverWeb = new Driver("chrome");
 
-        driver.manage().window().maximize();
-
+        driver = driverWeb.driver;
         driver.get("https://www.chronosacademy.com.br/");
+        principalPage = new PrincipalPage(driver);
+
 
     }
 
     @Test
     public void primerioTeste(){
 
-        String xpathTitulo = "/html/body/div/div/div/div/div/section[2]/div[3]/div/div/div/div/div[1]/div/h4";
-        WebElement txtTitulo = driver.findElement(By.xpath(xpathTitulo));
-        String titulo = txtTitulo.getText();
+        String titulo = principalPage.getTitulo();
 
         assertEquals("Porque Tempo É Conhecimento", titulo);
 
     }
 
+
+
     @Test
     public void segundoTeste(){
 
-        String xpathBotao = "/html/body/div/div/div/div/div/section[2]/div[3]/div/div/div/div/div[2]/div/div/a";
-        WebElement btnTitulo = driver.findElement(By.xpath(xpathBotao));
-        String titulo = btnTitulo.getText();
+        principalPage.clickBotao();
+        cursoPage = new CursoPage(driver);
+        String titulo = cursoPage.getTitulo2();
 
-        btnTitulo.click();
 
-        String xpathTitulo = "/html/body/div/div/div/div/section[2]/div/div/div/div/div/section/div/div/div/div/div/div/div/h2";
-        WebElement h2Titulo = driver.findElement(By.xpath(xpathTitulo));
-
-        assertEquals("AUTOMAÇÃO SEM COMPLICAÇÃO WEB 2.0", h2Titulo.getText());
+        assertEquals("AUTOMAÇÃO SEM COMPLICAÇÃO WEB 2.0", titulo);
 
 
     }
 
-    //@After
+
+
+    @After
     public void finalizaTeste(){
         driver.quit();
     }
