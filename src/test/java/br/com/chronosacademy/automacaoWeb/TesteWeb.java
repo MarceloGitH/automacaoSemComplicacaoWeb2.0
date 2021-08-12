@@ -26,8 +26,8 @@ public class TesteWeb {
     @Before
     public void inicializaTeste(){
         driverWeb = new Driver("chrome");
+        driver = Driver.getDriver();
 
-        driver = driverWeb.driver;
         driver.get("https://www.chronosacademy.com.br/");
         principalPage = new PrincipalPage(driver);
 
